@@ -14,6 +14,7 @@
         }
         .contenedor { max-width: 520px; margin: 0 auto; }
 
+        /* ===== PANTALLA DE CARGA CON PERSONAJES ===== */
         .pantalla-carga {
             position: fixed; inset: 0;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -21,45 +22,134 @@
             z-index: 100; transition: opacity 0.6s ease, visibility 0.6s ease;
         }
         .pantalla-carga.ocultar { opacity: 0; visibility: hidden; }
+
+        /* Personajes decorativos en la pantalla de carga */
+        .personajes-fondo-carga {
+            position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0.15;
+            display: flex; justify-content: space-between; padding: 40px; align-items: center;
+        }
+        .personaje-carga { font-size: 5rem; }
+        .personaje-ff { transform: rotate(-8deg); }
+        .personaje-rb { transform: rotate(8deg); }
+
         .logo {
-            font-size: 4.5rem; font-weight: 900; letter-spacing: 6px; margin-bottom: 60px;
+            font-size: 4.5rem; font-weight: 900; letter-spacing: 6px; margin-bottom: 40px;
             background: linear-gradient(90deg, #00f5ff, #ff00f5, #ffd900);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             animation: brillo 2s ease-in-out infinite alternate;
+            position: relative; z-index: 1;
         }
         @keyframes brillo {
             from { filter: drop-shadow(0 0 20px rgba(0,245,255,0.4)); }
             to   { filter: drop-shadow(0 0 35px rgba(255,0,245,0.6)); }
         }
-        .numero-estado { font-size: 3rem; font-weight: 700; color: #00f5ff; margin-bottom: 20px; }
+        .numero-estado { font-size: 3rem; font-weight: 700; color: #00f5ff; margin-bottom: 20px; position: relative; z-index: 1; }
+
         .contenedor-barra {
-            width: 450px; height: 50px;
+            width: 450px; height: 60px;
             background: rgba(255,255,255,0.08); border-radius: 50px;
             border: 2px solid rgba(255,255,255,0.15); overflow: hidden;
             box-shadow: 0 0 25px rgba(0,245,255,0.15) inset; margin-bottom: 25px;
+            position: relative; z-index: 1;
         }
         .barra-carga {
             height: 100%; width: 0%;
             background: linear-gradient(90deg, #00f5ff, #00c8ff, #ff00f5);
-            border-radius: 50px; transition: width 0.3s ease;
-            display: flex; align-items: center; justify-content: flex-end;
-            padding-right: 20px; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            border-radius: 50px; transition: width 0.25s linear;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,0.5);
         }
-        .texto-inferior { color: rgba(255,255,255,0.6); font-size: 1.1rem; letter-spacing: 2px; }
+        .barra-carga .personaje-barra { font-size: 1.8rem; opacity: 0; transition: opacity 0.3s ease; }
+        .barra-carga.activa-ff { background: linear-gradient(90deg, #ff4400, #ff8800, #ffcc00); }
+        .barra-carga.activa-rb { background: linear-gradient(90deg, #0066ff, #00aaff, #00ddff); }
+        .barra-carga.activa-ff .personaje-barra.ff,
+        .barra-carga.activa-rb .personaje-barra.rb { opacity: 1; }
 
-        .pantalla-ingreso {
+        .texto-inferior { color: rgba(255,255,255,0.6); font-size: 1.1rem; letter-spacing: 2px; position: relative; z-index: 1; }
+
+        /* ===== PANTALLAS GENERALES ===== */
+        .pantalla-ingreso, .pantalla-contrasena, .pantalla-desafios {
             opacity: 0; transform: translateY(20px);
             transition: opacity 0.6s ease 0.3s, transform 0.6s ease 0.3s;
+            display: none;
         }
-        .pantalla-ingreso.activa { opacity: 1; transform: translateY(0); }
+        .pantalla-ingreso.activa, .pantalla-contrasena.activa, .pantalla-desafios.activa {
+            opacity: 1; transform: translateY(0); display: block;
+        }
         h1.titulo {
             text-align: center; font-size: 2.8rem;
             background: linear-gradient(90deg, #00f5ff, #ff00f5);
             -webkit-background-clip: text; background-clip: text; color: transparent;
             margin-bottom: 10px;
         }
-        .subtitulo { text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 50px; font-size: 1.1rem; }
+        .subtitulo { text-align: center; color: rgba(255,255,255,0.6); margin-bottom: 30px; font-size: 1.1rem; }
 
+        /* ===== SECCIÓN DE EQUIPOS CON PERSONAJES ===== */
+        .seccion-equipos {
+            display: flex; align-items: stretch; justify-content: center; gap: 25px;
+            margin-bottom: 40px; padding: 30px 25px;
+            background: rgba(255,255,255,0.03); border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .equipo {
+            flex: 1; text-align: center; cursor: pointer; padding: 25px 20px;
+            border-radius: 16px; transition: all 0.35s ease;
+            border: 3px solid transparent; position: relative;
+            background: rgba(255,255,255,0.02);
+        }
+        .equipo:hover { transform: translateY(-6px); }
+
+        /* 🔥 FREE FIRE — con personaje */
+        .equipo-freefire .personaje-principal { font-size: 4.5rem; margin-bottom: 10px; filter: drop-shadow(0 0 8px rgba(255,140,0,0.3)); }
+        .equipo-freefire .nombre-equipo {
+            font-weight: 900; font-size: 1.3rem; margin-bottom: 6px;
+            color: #ffb800; letter-spacing: 0.5px;
+        }
+        .equipo-freefire .apoya-equipo { font-size: 0.95rem; color: #ffd54f; opacity: 0.9; margin-bottom: 15px; }
+        .barra-equipo-chica {
+            width: 100%; height: 12px; background: rgba(255,255,255,0.08);
+            border-radius: 6px; overflow: hidden; opacity: 0; transform: scaleX(0.7);
+            transition: all 0.4s ease; transform-origin: center;
+        }
+        .llenado-chico {
+            height: 100%; width: 0%; border-radius: 6px; transition: width 0.6s cubic-bezier(0.4,0,0.25,1);
+        }
+        .equipo-freefire.seleccionado {
+            border-color: #ff9500; background: linear-gradient(145deg, rgba(255,149,0,0.15), rgba(255,60,0,0.05));
+            box-shadow: 0 0 30px rgba(255,149,0,0.25), inset 0 0 20px rgba(255,180,0,0.08);
+            transform: scale(1.04);
+        }
+        .equipo-freefire.seleccionado .barra-equipo-chica { opacity: 1; transform: scaleX(1); }
+        .equipo-freefire.seleccionado .llenado-chico {
+            width: 100%; background: linear-gradient(90deg, #ff5e00, #ff9500, #ffd000);
+            box-shadow: 0 0 15px rgba(255,149,0,0.4) inset;
+        }
+
+        /* 🟦 ROBLOX — con personaje */
+        .equipo-roblox .personaje-principal { font-size: 4.5rem; margin-bottom: 10px; filter: drop-shadow(0 0 8px rgba(0,100,255,0.3)); }
+        .equipo-roblox .nombre-equipo {
+            font-weight: 900; font-size: 1.3rem; margin-bottom: 6px;
+            color: #00b4ff; letter-spacing: 0.5px;
+        }
+        .equipo-roblox .apoya-equipo { font-size: 0.95rem; color: #66ccff; opacity: 0.9; margin-bottom: 15px; }
+        .equipo-roblox.seleccionado {
+            border-color: #00a2ff; background: linear-gradient(145deg, rgba(0,162,255,0.15), rgba(0,90,200,0.05));
+            box-shadow: 0 0 30px rgba(0,162,255,0.25), inset 0 0 20px rgba(0,180,255,0.08);
+            transform: scale(1.04);
+        }
+        .equipo-roblox.seleccionado .barra-equipo-chica { opacity: 1; transform: scaleX(1); }
+        .equipo-roblox.seleccionado .llenado-chico {
+            width: 100%; background: linear-gradient(90deg, #0077ff, #00a2ff, #00d0ff);
+            box-shadow: 0 0 15px rgba(0,162,255,0.4) inset;
+        }
+
+        .barra-separadora {
+            width: 5px; align-self: stretch; border-radius: 3px;
+            background: linear-gradient(180deg, #ff5e00, #ffd000, #00a2ff);
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        /* ===== BOTONES Y FORMULARIOS ===== */
         .contenedor-botones { display: flex; flex-direction: column; gap: 20px; margin-bottom: 40px; }
         .boton-principal {
             padding: 22px 30px; font-size: 1.2rem; border: none; border-radius: 14px;
@@ -83,20 +173,26 @@
         .titulo-form { font-size: 1.3rem; color: #00f5ff; margin-bottom: 25px; text-align: center; }
         label { display: block; margin-bottom: 6px; color: #ddd; font-weight: 500; font-size: 0.95rem; }
         .campo {
-            width: 100%; padding: 12px 15px; margin-bottom: 18px;
+            width: 100%; padding: 12px 15px; margin-bottom: 12px;
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
             color: white; font-size: 1rem;
         }
         select.campo { cursor: pointer; }
         select.campo option { background: #1a1a2e; color: white; }
-        .campo:focus { outline: none; border-color: #00f5ff; box-shadow: 0 0 10px rgba(0,245,255,0.2); }
+        .campo:focus { outline: none; }
         .edad-calculada {
             padding: 12px 15px; margin-bottom: 18px; border-radius: 8px;
             background: rgba(0,255,128,0.08); border: 1px solid rgba(0,255,128,0.2);
             color: #80ffb0; font-weight: 600; display: none;
         }
         .edad-calculada.visible { display: block; animation: aparecer 0.3s ease; }
+        .advertencia-menor-edad {
+            padding: 12px 15px; margin-bottom: 18px; border-radius: 8px;
+            background: rgba(255,70,70,0.1); border: 1px solid rgba(255,70,70,0.3);
+            color: #ff8080; font-weight: 600; display: none;
+        }
+        .advertencia-menor-edad.visible { display: block; }
         .grupo-radio { display: flex; gap: 20px; margin-bottom: 18px; }
         .opcion-radio {
             display: flex; align-items: center; gap: 8px; padding: 10px 18px;
@@ -108,10 +204,10 @@
         }
         .boton-enviar {
             width: 100%; padding: 16px; font-size: 1.15rem;
-            background: linear-gradient(90deg, #00f5ff, #ff00f5);
             border: none; border-radius: 12px; color: white; font-weight: bold;
             cursor: pointer; margin-top: 10px; transition: transform 0.3s;
         }
+        .boton-enviar:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
         .boton-enviar:hover { transform: scale(1.02); }
         .boton-volver {
             background: transparent; border: none; color: #888; margin-top: 15px;
@@ -120,237 +216,175 @@
         .boton-volver:hover { color: #fff; }
         .etiqueta { color: #ffd900; font-weight: bold; }
         .opcional { color: #888; font-weight: normal; }
+
+        /* ===== PANTALLA DE CONTRASEÑA CON PERSONAJE ===== */
+        .caja-contrasena {
+            background: rgba(255,255,255,0.04); border-radius: 20px; padding: 35px 30px;
+            border: 2px solid; margin-bottom: 35px; transition: all 0.5s ease;
+            position: relative; overflow: hidden;
+        }
+        .personaje-fondo {
+            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+            font-size: 4rem; opacity: 0.08; pointer-events: none;
+        }
+        .caja-contrasena.freefire {
+            border-color: #ff9500;
+            background: linear-gradient(160deg, rgba(255,149,0,0.12), rgba(255,70,0,0.04));
+            box-shadow: 0 0 40px rgba(255,149,0,0.18), inset 0 0 30px rgba(255,180,0,0.06);
+        }
+        .caja-contrasena.roblox {
+            border-color: #00a2ff;
+            background: linear-gradient(160deg, rgba(0,162,255,0.12), rgba(0,80,180,0.04));
+            box-shadow: 0 0 40px rgba(0,162,255,0.18), inset 0 0 30px rgba(0,180,255,0.06);
+        }
+        .titulo-contrasena {
+            text-align: center; font-size: 1.5rem; margin-bottom: 8px; position: relative; z-index: 1;
+        }
+        .caja-contrasena.freefire .titulo-contrasena { color: #ffcc00; }
+        .caja-contrasena.roblox .titulo-contrasena { color: #66ccff; }
+        .sub-contrasena { text-align: center; color: rgba(255,255,255,0.5); margin-bottom: 25px; font-size: 0.95rem; position: relative; z-index: 1; }
+
+        /* ===== BARRA DE DESAFÍOS CON PERSONAJE ===== */
+        .info-progreso { 
+            text-align: center; font-size: 1.1rem; margin-bottom: 12px; font-weight: 500;
+        }
+        .info-progreso span { font-weight: bold; font-size: 1.3rem; }
+        .info-progreso.freefire span { color: #ffcc00; }
+        .info-progreso.roblox span { color: #66ccff; }
+
+        .contenedor-barra-desafios {
+            width: 100%; height: 45px;
+            background: rgba(255,255,255,0.06); border-radius: 22px;
+            border: 2px solid; overflow: hidden; margin: 0 0 25px;
+            position: relative;
+        }
+        .contenedor-barra-desafios.freefire { border-color: #ff770044; }
+        .contenedor-barra-desafios.roblox { border-color: #0088ff44; }
+        .barra-progreso-desafios {
+            height: 100%; width: 0%; border-radius: 20px;
+            display: flex; align-items: center; justify-content: flex-start; padding-left: 12px; gap: 8px;
+            font-size: 0.9rem; font-weight: bold; transition: width 1s ease-out;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
+        .barra-progreso-desafios .personaje-pequeño { font-size: 1.2rem; }
+        .barra-progreso-desafios.freefire {
+            background: linear-gradient(90deg, #ff4400, #ff8800, #ffcc00);
+            box-shadow: 0 0 20px rgba(255,136,0,0.35) inset;
+        }
+        .barra-progreso-desafios.roblox {
+            background: linear-gradient(90deg, #0066ff, #00aaff, #00ddff);
+            box-shadow: 0 0 20px rgba(0,136,255,0.35) inset;
+        }
+
+        /* ===== LISTA DE DESAFÍOS ===== */
+        .lista-desafios { margin: 30px 0; }
+        .titulo-seccion { font-size: 1.2rem; margin-bottom: 15px; text-align: center; }
+        .titulo-seccion.freefire { color: #ffcc00; }
+        .titulo-seccion.roblox { color: #66ccff; }
+        .desafio {
+            background: rgba(255,255,255,0.04); border-radius: 12px; padding: 15px;
+            margin-bottom: 12px; border-left: 4px solid; opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+        .desafio.freefire { border-left-color: #ff9500; }
+        .desafio.roblox { border-left-color: #00a2ff; }
+        .desafio.completado { opacity: 1; }
+        .desafio.completado.freefire {
+            background: rgba(255,149,0,0.08);
+            box-shadow: 0 0 12px rgba(255,149,0,0.1);
+        }
+        .desafio.completado.roblox {
+            background: rgba(0,162,255,0.08);
+            box-shadow: 0 0 12px rgba(0,162,255,0.1);
+        }
+        .desafio-nombre { font-weight: bold; margin-bottom: 4px; }
+        .desafio-desc { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+        .desafio-marca { float: right; font-size: 1.2rem; }
+
+        .campo-contrasena {
+            width: 100%; padding: 14px 18px; margin-bottom: 12px; font-size: 1.05rem;
+            background: rgba(0,0,0,0.25); border-radius: 10px; color: white;
+            border: 2px solid; position: relative; z-index: 1;
+        }
+        .campo-contrasena.freefire { border-color: #ff950066; }
+        .campo-contrasena.roblox { border-color: #00a2ff66; }
+        .campo-contrasena:focus { outline: none; }
+        .campo-contrasena.freefire:focus { border-color: #ffcc00; box-shadow: 0 0 12px rgba(255,149,0,0.25); }
+        .campo-contrasena.roblox:focus { border-color: #00ccff; box-shadow: 0 0 12px rgba(0,162,255,0.25); }
+
+        .boton-ingresar {
+            width: 100%; padding: 15px; font-size: 1.1rem; font-weight: bold;
+            border: none; border-radius: 12px; color: white; cursor: pointer;
+            margin-top: 8px; transition: all 0.3s ease; position: relative; z-index: 1;
+        }
+        .boton-ingresar.freefire { background: linear-gradient(90deg, #ff5500, #ffaa00); }
+        .boton-ingresar.roblox { background: linear-gradient(90deg, #0077ff, #00ccff); }
+        .boton-ingresar:hover { transform: scale(1.02); }
+
+        /* ===== CAJA DE FOTOS ===== */
+        .caja-foto {
+            border: 2px dashed; border-radius: 12px; padding: 25px; text-align: center;
+            margin: 20px 0; transition: all 0.3s ease;
+        }
+        .caja-foto.freefire { border-color: #ff950055; }
+        .caja-foto.roblox { border-color: #00a2ff55; }
+        .caja-foto:hover { border-style: solid; }
+        .texto-foto { color: rgba(255,255,255,0.6); margin-bottom: 10px; }
+        .boton-foto {
+            padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer;
+            font-weight: bold; transition: all 0.3s;
+        }
+        .boton-foto.freefire { background: #ff9500; color: #000; }
+        .boton-foto.roblox { background: #00a2ff; color: #fff; }
     </style>
 </head>
 <body>
 
+    <!-- PANTALLA DE CARGA CON PERSONAJES DE FONDO -->
     <div class="pantalla-carga" id="pantallaCarga">
+        <div class="personajes-fondo-carga">
+            <div class="personaje-carga personaje-ff">🎯🔥</div>
+            <div class="personaje-carga personaje-rb">🧱👤</div>
+        </div>
         <h1 class="logo">LEVEL//200</h1>
         <div class="numero-estado" id="numeroEstado">0 / 200</div>
         <div class="contenedor-barra">
-            <div class="barra-carga" id="barraCarga">0%</div>
+            <div class="barra-carga" id="barraCarga" style="width:0%">
+                <span class="personaje-barra ff">🎯</span>
+                <span id="textoBarraCarga">0%</span>
+                <span class="personaje-barra rb">👤</span>
+            </div>
         </div>
         <p class="texto-inferior" id="textoInferior">Iniciando sistema...</p>
     </div>
 
+    <!-- PANTALLA DE INGRESO CON PERSONAJES EN CADA EQUIPO -->
     <div class="contenedor pantalla-ingreso" id="pantallaIngreso">
         <h1 class="titulo">🌟 LEVEL//200</h1>
-        <p class="subtitulo">¿Cómo querés participar hoy?</p>
+        <p class="subtitulo">¿De qué equipo sos? Elegí a quién apoyás 👇</p>
 
-        <div class="contenedor-botones" id="seleccionIngreso">
+        <div class="seccion-equipos">
+            <div class="equipo equipo-freefire" id="equipoFreeFire" onclick="seleccionarEquipo('freefire')">
+                <div class="personaje-principal">🎯🔥</div>
+                <div class="nombre-equipo">FREE FIRE</div>
+                <div class="apoya-equipo">✨ Apoyo a Free Fire ✨</div>
+                <div class="barra-equipo-chica"><div class="llenado-chico" id="llenadoFF"></div></div>
+            </div>
+
+            <div class="barra-separadora"></div>
+
+            <div class="equipo equipo-roblox" id="equipoRoblox" onclick="seleccionarEquipo('roblox')">
+                <div class="personaje-principal">🧱👤</div>
+                <div class="nombre-equipo">ROBLOX</div>
+                <div class="apoya-equipo">✨ Apoyo a Roblox ✨</div>
+                <div class="barra-equipo-chica"><div class="llenado-chico" id="llenadoRB"></div></div>
+            </div>
+        </div>
+
+        <div class="contenedor-botones" id="seleccionIngreso" style="display: none;">
             <button class="boton-principal boton-telefono" onclick="mostrarFormulario('telefono')">
                 <span class="icono">📱</span>
                 <div><strong>Cuenta con teléfono</strong><br><small>Participar con tu usuario y correo</small></div>
             </button>
             <button class="boton-principal boton-invitado" onclick="mostrarFormulario('invitado')">
-                <span class="icono">👥</span>
-                <div><strong>Cuenta invitado</strong><br><small>Participar solo con tu nombre de usuario</small></div>
-            </button>
-        </div>
-
-        <div class="tarjeta-formulario" id="formularioTelefono">
-            <h2 class="titulo-form">📱 Crear tu cuenta</h2>
-            <form id="formTel">
-                <label>Nombre de usuario <span class="etiqueta">*</span></label>
-                <input type="text" class="campo" id="usuarioTel" placeholder="Como querés que te conozcan" required>
-
-                <label>Correo electrónico <span class="etiqueta">*</span></label>
-                <input type="email" class="campo" id="correoTel" placeholder="tu@ejemplo.com" required>
-
-                <label>Fecha de nacimiento <span class="etiqueta">*</span></label>
-                <input type="date" class="campo" id="fechaTel" min="2015-08-05" required onchange="calcularEdad(this.value, 'edadTel')">
-                <div class="edad-calculada" id="edadTel"></div>
-
-                <label>País <span class="etiqueta opcional">(opcional)</span></label>
-                <select class="campo" id="paisTel">
-                    <option value="">-- Elegí tu país --</option>
-                    <option>Argentina</option><option>Bolivia</option><option>Brasil</option>
-                    <option>Chile</option><option>Colombia</option><option>Ecuador</option>
-                    <option>Paraguay</option><option>Perú</option><option>Uruguay</option>
-                    <option>Venezuela</option><option>Estados Unidos</option><option>México</option>
-                    <option>Guatemala</option><option>Honduras</option><option>El Salvador</option>
-                    <option>Nicaragua</option><option>Costa Rica</option><option>Panamá</option>
-                    <option>Cuba</option><option>República Dominicana</option><option>España</option>
-                    <option>Otros / Prefiero no decirlo</option>
-                </select>
-
-                <label>¿Eres hombre o mujer? <span class="etiqueta">*</span></label>
-                <div class="grupo-radio">
-                    <label class="opcion-radio" onclick="seleccionarRadio(this); return false;">
-                        <input type="radio" name="generoTel" value="hombre" required style="display:none;">♂️ Hombre
-                    </label>
-                    <label class="opcion-radio" onclick="seleccionarRadio(this); return false;">
-                        <input type="radio" name="generoTel" value="mujer" style="display:none;">♀️ Mujer
-                    </label>
-                </div>
-
-                <button type="submit" class="boton-enviar">CONTINUAR →</button>
-                <button type="button" class="boton-volver" onclick="volver()">← Volver atrás</button>
-            </form>
-        </div>
-
-        <div class="tarjeta-formulario" id="formularioInvitado">
-            <h2 class="titulo-form">👥 Cuenta invitado</h2>
-            <form id="formInvitado">
-                <label>Nombre de usuario <span class="etiqueta">*</span></label>
-                <input type="text" class="campo" id="usuarioInvitado" placeholder="Como querés que te conozcan" required>
-
-                <label>Fecha de nacimiento <span class="etiqueta">*</span></label>
-                <input type="date" class="campo" id="fechaInvitado" min="2015-08-05" required onchange="calcularEdad(this.value, 'edadInvitado')">
-                <div class="edad-calculada" id="edadInvitado"></div>
-
-                <label>País <span class="etiqueta opcional">(opcional)</span></label>
-                <select class="campo" id="paisInvitado">
-                    <option value="">-- Elegí tu país --</option>
-                    <option>Argentina</option><option>Bolivia</option><option>Brasil</option>
-                    <option>Chile</option><option>Colombia</option><option>Ecuador</option>
-                    <option>Paraguay</option><option>Perú</option><option>Uruguay</option>
-                    <option>Venezuela</option><option>Estados Unidos</option><option>México</option>
-                    <option>Guatemala</option><option>Honduras</option><option>El Salvador</option>
-                    <option>Nicaragua</option><option>Costa Rica</option><option>Panamá</option>
-                    <option>Cuba</option><option>República Dominicana</option><option>España</option>
-                    <option>Otros / Prefiero no decirlo</option>
-                </select>
-
-                <label>¿Eres hombre o mujer? <span class="etiqueta">*</span></label>
-                <div class="grupo-radio">
-                    <label class="opcion-radio" onclick="seleccionarRadio(this); return false;">
-                        <input type="radio" name="generoInvitado" value="hombre" required style="display:none;">♂️ Hombre
-                    </label>
-                    <label class="opcion-radio" onclick="seleccionarRadio(this); return false;">
-                        <input type="radio" name="generoInvitado" value="mujer" style="display:none;">♀️ Mujer
-                    </label>
-                </div>
-
-                <button type="submit" class="boton-enviar">CONTINUAR →</button>
-                <button type="button" class="boton-volver" onclick="volver()">← Volver atrás</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // ==================================================
-        // 📌 CONFIGURACIÓN DEL SERVIDOR 2 — CAMBIÁ ESTA DIRECCIÓN CUANDO LA TENGAS
-        // ==================================================
-        const SERVIDOR_DESTINO = "https://TU-SERVIDOR-2.com/api/registrar";
-
-        // ==================================================
-        // ANIMACIÓN DE CARGA
-        // ==================================================
-        let progreso = 0;
-        const barra = document.getElementById("barraCarga");
-        const numero = document.getElementById("numeroEstado");
-        const texto = document.getElementById("textoInferior");
-        const pantallaCarga = document.getElementById("pantallaCarga");
-        const pantallaIngreso = document.getElementById("pantallaIngreso");
-
-        const textosCarga = [
-            "Iniciando sistema...", "Cargando perfiles...",
-            "Conectando reglas de edad...", "Preparando países...", "¡Listo!"
-        ];
-
-        const intervalo = setInterval(() => {
-            progreso++;
-            barra.style.width = progreso + "%";
-            barra.textContent = progreso + "%";
-            numero.textContent = progreso + " / 200";
-            const paso = Math.floor(progreso / 40);
-            if (paso < textosCarga.length) texto.textContent = textosCarga[paso];
-            if (progreso >= 200) {
-                clearInterval(intervalo);
-                setTimeout(() => { pantallaCarga.classList.add("ocultar"); pantallaIngreso.classList.add("activa"); }, 500);
-            }
-        }, 30);
-
-        // ==================================================
-        // MOSTRAR / OCULTAR FORMULARIOS
-        // ==================================================
-        function mostrarFormulario(tipo) {
-            document.getElementById("seleccionIngreso").style.display = "none";
-            if (tipo === "telefono") document.getElementById("formularioTelefono").classList.add("activo");
-            else document.getElementById("formularioInvitado").classList.add("activo");
-        }
-        function volver() {
-            document.querySelectorAll(".tarjeta-formulario").forEach(f => f.classList.remove("activo"));
-            document.getElementById("seleccionIngreso").style.display = "flex";
-        }
-
-        // ==================================================
-        // CALCULAR EDAD AUTOMÁTICA
-        // ==================================================
-        function calcularEdad(fechaNacStr, idDestino) {
-            if (!fechaNacStr) { document.getElementById(idDestino).classList.remove("visible"); return; }
-            const nac = new Date(fechaNacStr), hoy = new Date();
-            let edad = hoy.getFullYear() - nac.getFullYear();
-            const mes = hoy.getMonth() - nac.getMonth();
-            if (mes < 0 || (mes === 0 && hoy.getDate() < nac.getDate())) edad--;
-            const caja = document.getElementById(idDestino);
-            caja.textContent = "🎂 Tenés " + edad + " años";
-            caja.classList.add("visible");
-        }
-
-        // ==================================================
-        // SELECCIONAR GÉNERO
-        // ==================================================
-        function seleccionarRadio(elemento) {
-            elemento.parentElement.querySelectorAll(".opcion-radio").forEach(e => e.classList.remove("seleccionado"));
-            elemento.classList.add("seleccionado");
-            elemento.querySelector("input").checked = true;
-        }
-
-        // ==================================================
-        // 📤 BLOQUE 1 — CUENTA CON TELÉFONO
-        // ==================================================
-        document.getElementById("formTel").addEventListener("submit", async e => {
-            e.preventDefault();
-            const datos = {
-                tipo_registro: "cuenta_con_telefono",
-                usuario: document.getElementById("usuarioTel").value.trim(),
-                correo: document.getElementById("correoTel").value.trim(),
-                fecha_nacimiento: document.getElementById("fechaTel").value,
-                pais: document.getElementById("paisTel").value || "No especificado",
-                genero: document.querySelector('input[name="generoTel"]:checked').value,
-                fecha_envio: new Date().toISOString()
-            };
-            console.log("📤 Enviado:", datos);
-            try {
-                const res = await fetch(SERVIDOR_DESTINO, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(datos)
-                });
-                const json = await res.json();
-                if (json.exito) { alert("✅ ¡Listo! Bienvenido, " + datos.usuario); e.target.reset(); volver(); }
-                else alert("❌ " + (json.mensaje || "Error"));
-            } catch { alert("🔌 Sin conexión con el servidor"); }
-        });
-
-        // ==================================================
-        // 📤 BLOQUE 2 — CUENTA INVITADO
-        // ==================================================
-        document.getElementById("formInvitado").addEventListener("submit", async e => {
-            e.preventDefault();
-            const datos = {
-                tipo_registro: "cuenta_invitado",
-                usuario: document.getElementById("usuarioInvitado").value.trim(),
-                fecha_nacimiento: document.getElementById("fechaInvitado").value,
-                pais: document.getElementById("paisInvitado").value || "No especificado",
-                genero: document.querySelector('input[name="generoInvitado"]:checked').value,
-                fecha_envio: new Date().toISOString()
-            };
-            console.log("📤 Enviado:", datos);
-            try {
-                const res = await fetch(SERVIDOR_DESTINO, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(datos)
-                });
-                const json = await res.json();
-                if (json.exito) { alert("✅ ¡Listo! Bienvenido, " + datos.usuario); e.target.reset(); volver(); }
-                else alert("❌ " + (json.mensaje || "Error"));
-            } catch { alert("🔌 Sin conexión con el servidor"); }
-        });
-    </script>
-</body>
-                    </html>
-                    
+                <span class
