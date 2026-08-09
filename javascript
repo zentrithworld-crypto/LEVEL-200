@@ -89,3 +89,23 @@
                 alert("🔌 No se pudo conectar con el servidor");
             }
         });
+        function seleccionarRadio(elemento) {
+            elemento.parentElement.querySelectorAll(".opcion-radio").forEach(e => e.classList.remove("seleccionado"));
+            elemento.classList.add("seleccionado");
+            elemento.querySelector("input").checked = true;
+        }
+const SERVIDOR_DESTINO = "https://TU-SERVIDOR-2.com/api/registrar";
+        function seleccionarRadio(elemento) {
+            elemento.parentElement.querySelectorAll(".opcion-radio").forEach(e => e.classList.remove("seleccionado"));
+            elemento.classList.add("seleccionado");
+            elemento.querySelector("input").checked = true;
+        }
+
+        // ↓ PEGÁ TODO LO QUE COPIASTE ACÁ ABAJO ↓
+        // ==================================================
+        // 📤 CONEXIÓN CON EL SERVIDOR 2 — NO SE MEZCLAN...
+        // ... todo el bloque que copiaste ...
+
+    </script>
+</body>
+</html>
