@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEVEL//200 — Cargando</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: white;
+            overflow: hidden;
+        }
+        .logo {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            margin-bottom: 60px;
+            background: linear-gradient(90deg, #00f5ff, #ff00f5, #ffd900);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: brillo 2s ease-in-out infinite alternate;
+        }
+        @keyframes brillo {
+            from { filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.4)); }
+            to   { filter: drop-shadow(0 0 35px rgba(255, 0, 245, 0.6)); }
+        }
+        .numero-estado {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #00f5ff;
+            margin-bottom: 20px;
+        }
+        .contenedor-barra {
+            width: 450px;
+            height: 50px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.15);
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0,245,255,0.15) inset;
+            margin-bottom: 25px;
+        }
+        .barra-carga {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00f5ff, #00c8ff, #ff00f5);
+            border-radius: 50px;
+            transition: width 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        .texto-inferior {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+        }
+        .boton-ingresar {
+            padding: 15px 50px;
+            font-size: 1.2rem;
+            background: linear-gradient(90deg, #00f5ff, #00c8ff);
+            border: none;
+            border-radius: 50px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, opacity 0.5s ease;
+            text-decoration: none;
+            display: inline-block;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .boton-ingresar.activo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .boton-ingresar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0,245,255,0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="logo">LEVEL//200</h1>
+    <div class="numero-estado" id="numero">0 / 200</div>
+    <div class="contenedor-barra">
+        <div class="barra-carga" id="barra">0%</div>
+    </div>
+    <p class="texto-inferior" id="mensaje">Iniciando sistema...</p>
+    <a href="bienvenida.html" class="boton-ingresar" id="botonFinal">INGRESAR AL DESAFÍO →</a>
+
+    <script>
+        // ⚡ Configuración de la animación
+        const valorFinal = 12;      // ← Hasta dónde sube: 12, 50, 100, 200... lo que quieras
+        const valorMaximo = 200;
+        const duracionTotal = 4000; // Milisegundos: 4000 = 4 segundos en completar la carga
+
+        let valorActual = 0;
+        const elementoNumero = document.getElementById('numero');
+        const elementoBarra = document.getElementById('barra');
+        const elementoMensaje = document.getElementById('mensaje');
+        const elementoBoton = document.getElementById('botonFinal');
+
+        // Mensajes que aparecen según el avance
+        const mensajes = [
+            { hasta: 0,   texto: 'Iniciando sistema...' },
+            { hasta: 25,  texto: 'Preparando el desafío...' },
+            { hasta: 75,  texto: 'Cargando el Bosque del Aprendizaje...' },
+            { hasta: 120, texto: 'Conectando con las Tierras de Creación...' },
+            { hasta: 180, texto: 'Subiendo hacia la Montaña de los Creadores...' },
+            { hasta: 200, texto: '¡Llegando a la Cumbre Legendaria! 🏆' }
+        ];
+
+        function actualizarVista() {
+            const porcentaje = (valorActual / valorMaximo) * 100;
+            elementoNumero.textContent = valorActual + ' / ' + valorMaximo;
+            elementoBarra.style.width = porcentaje + '%';
+            elementoBarra.textContent = Math.round(porcentaje) + '%';
+
+            // Cambiar el texto según el progreso
+            for (let m of mensajes) {
+                if (valorActual <= m.hasta) {
+                    elementoMensaje.textContent = m.texto;
+                    break;
+                }
+            }
+        }
+
+        function animar() {
+            const pasos = valorFinal;
+            const intervalo = duracionTotal / pasos;
+
+            const temporizador = setInterval(() => {
+                valorActual++;
+                actualizarVista();
+
+                if (valorActual >= valorFinal) {
+                    clearInterval(temporizador);
+                    // Cuando llega al final: aparece el botón
+                    elementoBoton.classList.add('activo');
+                }
+            }, intervalo);
+        }
+
+        // ¡Arranca la animación apenas carga la página!
+        window.addEventListener('DOMContentLoaded', animar);
+    </script>
+</body>
+  </html>
+  
